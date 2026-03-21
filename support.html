@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cutify — Support</title>
+<meta name="description" content="Cutify support, privacy policy, and terms of service.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  [data-theme="dark"] {
+    --bg: #000000;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: #222222;
+    --fg: #ffffff;
+    --gray: #888888;
+    --light-gray: #cccccc;
+    --nav-bg: rgba(0,0,0,0.88);
+    --toggle-bg: #222;
+    --toggle-knob: #fff;
+  }
+
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --surface: #f5f5f5;
+    --surface2: #eeeeee;
+    --border: #e0e0e0;
+    --fg: #000000;
+    --gray: #666666;
+    --light-gray: #444444;
+    --nav-bg: rgba(255,255,255,0.88);
+    --toggle-bg: #e0e0e0;
+    --toggle-knob: #000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 40px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 18px; font-weight: 900; letter-spacing: -0.5px;
+    color: var(--fg); text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 32px; height: 32px; background: var(--fg);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 15px; color: var(--bg);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  .nav-link {
+    font-size: 13px; font-weight: 500; color: var(--gray);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--fg); }
+
+  .theme-toggle {
+    width: 44px; height: 24px; background: var(--toggle-bg);
+    border-radius: 100px; border: none; cursor: pointer;
+    position: relative; transition: background 0.3s; flex-shrink: 0;
+  }
+  .theme-toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 18px; height: 18px; background: var(--toggle-knob);
+    border-radius: 50%; transition: transform 0.3s, background 0.3s;
+  }
+  [data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
+
+  .toggle-label { font-size: 12px; color: var(--gray); font-weight: 500; }
+
+  .nav-cta {
+    background: var(--fg); color: var(--bg);
+    border: none; padding: 10px 22px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+    cursor: pointer; border-radius: 100px; text-decoration: none;
+    transition: opacity 0.2s, background 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { opacity: 0.8; }
+
+  /* HERO */
+  .hero {
+    padding: 140px 40px 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border); border-radius: 100px;
+    padding: 6px 14px; font-size: 11px; font-weight: 500;
+    color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900; line-height: 1.0; letter-spacing: -2px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.5s 0.08s ease both;
+  }
+
+  .hero-sub {
+    font-size: 17px; color: var(--gray); line-height: 1.7;
+    max-width: 500px; animation: fadeUp 0.5s 0.16s ease both;
+  }
+
+  /* CONTACT BANNER */
+  .contact-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 32px 40px;
+    border-bottom: 1px solid var(--border);
+    gap: 20px; flex-wrap: wrap;
+    background: var(--surface);
+    transition: background 0.3s;
+  }
+
+  .contact-left { display: flex; flex-direction: column; gap: 4px; }
+
+  .contact-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray);
+  }
+
+  .contact-email {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 20px; font-weight: 900; letter-spacing: -0.5px;
+    color: var(--fg); text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .contact-email:hover { opacity: 0.6; }
+
+  .contact-desc { font-size: 13px; color: var(--gray); margin-top: 4px; }
+
+  .btn-email {
+    background: var(--fg); color: var(--bg);
+    border: none; padding: 13px 28px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+    cursor: pointer; border-radius: 100px; text-decoration: none;
+    white-space: nowrap; transition: opacity 0.2s, background 0.3s, color 0.3s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-email:hover { opacity: 0.8; }
+
+  /* FAQ */
+  .section { padding: 80px 40px; border-top: 1px solid var(--border); transition: border-color 0.3s; }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray); margin-bottom: 16px;
+  }
+
+  .heading {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 900; letter-spacing: -1.5px; line-height: 1.05;
+    margin-bottom: 48px;
+  }
+
+  .faq-list { display: flex; flex-direction: column; }
+
+  .faq-item {
+    border-top: 1px solid var(--border);
+    transition: border-color 0.3s;
+  }
+
+  .faq-question {
+    width: 100%; background: none; border: none;
+    color: var(--fg); text-align: left; cursor: pointer;
+    padding: 24px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+    transition: opacity 0.2s;
+    gap: 20px;
+  }
+  .faq-question:hover { opacity: 0.7; }
+
+  .faq-icon {
+    font-size: 20px; color: var(--gray); flex-shrink: 0;
+    transition: transform 0.3s;
+  }
+
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.3s;
+  }
+
+  .faq-item.open .faq-answer { max-height: 400px; }
+
+  .faq-answer p {
+    font-size: 14px; color: var(--gray); line-height: 1.75;
+    padding-bottom: 24px;
+  }
+
+  /* TABS */
+  .tabs-wrap { margin-bottom: 40px; }
+
+  .tab-btns {
+    display: flex; gap: 2px;
+    border: 1px solid var(--border);
+    width: fit-content;
+  }
+
+  .tab-btn {
+    padding: 12px 28px;
+    background: transparent; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    color: var(--gray); transition: all 0.2s; letter-spacing: 0.2px;
+  }
+
+  .tab-btn.active { background: var(--fg); color: var(--bg); }
+  .tab-btn:not(.active):hover { background: var(--surface); color: var(--fg); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* POLICY CONTENT */
+  .policy-body {
+    border: 1px solid var(--border);
+    transition: border-color 0.3s;
+  }
+
+  .policy-section {
+    padding: 36px 40px;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.3s;
+  }
+  .policy-section:last-child { border-bottom: none; }
+
+  .policy-section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 14px; font-weight: 900; letter-spacing: -0.3px;
+    margin-bottom: 16px;
+  }
+
+  .policy-section p {
+    font-size: 14px; color: var(--gray); line-height: 1.75; margin-bottom: 8px;
+  }
+
+  .policy-section ul {
+    list-style: none; display: flex; flex-direction: column; gap: 8px;
+  }
+
+  .policy-section ul li {
+    font-size: 14px; color: var(--gray); line-height: 1.7;
+    padding-left: 16px; position: relative;
+  }
+
+  .policy-section ul li::before {
+    content: '—'; position: absolute; left: 0; color: var(--border);
+  }
+
+  .policy-important {
+    font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--fg);
+    margin-bottom: 10px; display: block;
+  }
+
+  .policy-updated {
+    font-size: 12px; color: var(--gray); font-style: italic;
+    padding: 24px 40px; border-top: 1px solid var(--border);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 28px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--gray); transition: border-color 0.3s;
+  }
+
+  .footer-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px; font-weight: 900; color: var(--fg);
+  }
+
+  footer a { color: var(--gray); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--fg); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .toggle-label { display: none; }
+    .hero { padding: 110px 20px 60px; }
+    .contact-banner { padding: 24px 20px; }
+    .section { padding: 60px 20px; }
+    .policy-section { padding: 28px 20px; }
+    .policy-updated { padding: 20px; }
+    .tab-btn { padding: 10px 18px; font-size: 12px; }
+    footer { padding: 24px 20px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✂</div>
+    Cutify
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Home</a>
+    <span class="toggle-label" id="theme-label">Light</span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode"></button>
+    <a href="mailto:cutify.support@gmail.com" class="nav-cta">Contact Us</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ Support Center</div>
+  <h1>We've got<br>you covered.</h1>
+  <p class="hero-sub">Questions about Cutify? Need help with tokens or your account? Reach out — we respond fast.</p>
+</section>
+
+<!-- CONTACT BANNER -->
+<div class="contact-banner">
+  <div class="contact-left">
+    <span class="contact-label">Email Support</span>
+    <a href="mailto:cutify.support@gmail.com" class="contact-email">cutify.support@gmail.com</a>
+    <span class="contact-desc">We typically respond within 24 hours.</span>
+  </div>
+  <a href="mailto:cutify.support@gmail.com" class="btn-email">Send Us an Email →</a>
+</div>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="eyebrow">FAQ</div>
+  <h2 class="heading">Common<br>questions.</h2>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-question">
+        How do tokens work?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Tokens are what power your AI hair previews. Each generation costs a set number of tokens depending on the feature. You buy tokens once and use them whenever you want — no subscription, no weekly charges draining your account.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Can I get a refund on tokens?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>All token purchases are final and non-refundable. If you believe there was a billing error or a technical issue prevented you from using your tokens, contact us at cutify.support@gmail.com and we'll look into it.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Are my photos stored or shared?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Your photos are processed to generate hairstyle previews and stored securely. We do not sell or share your photos with anyone. Photos are automatically deleted after 30 days. You can also request deletion at any time by contacting us.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        The AI result doesn't look right — what should I do?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>AI results can vary depending on photo quality and lighting. For best results, use a well-lit, front-facing photo with your hair clearly visible. If the result still looks off, try describing the style differently or use the Edit mode to tweak it. Results are meant as a preview — always show your barber the image for the best outcome.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        My tokens didn't show up after purchase.
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Try closing and reopening the app. If tokens still haven't appeared after a few minutes, email us at cutify.support@gmail.com with your purchase receipt and we'll sort it out quickly.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What's the difference between Generate, Edit, and Analyze?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Generate creates a new hairstyle on your photo from scratch based on a style you describe. Edit lets you tweak your existing photo — describe a change and apply it. Analyze examines your face shape and recommends hairstyles that suit you specifically.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        How do I delete my data?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Email us at cutify.support@gmail.com with the subject "Delete My Data" and we will remove all your information from our systems within a reasonable timeframe.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRIVACY + TERMS -->
+<section class="section" id="legal">
+  <div class="eyebrow">Legal</div>
+  <h2 class="heading">Privacy &<br>Terms.</h2>
+
+  <div class="tabs-wrap">
+    <div class="tab-btns">
+      <button class="tab-btn active" data-tab="privacy">Privacy Policy</button>
+      <button class="tab-btn" data-tab="terms">Terms of Service</button>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY -->
+  <div class="tab-content active" id="tab-privacy">
+    <div class="policy-body">
+
+      <div class="policy-section">
+        <div class="policy-section-title">What We Collect</div>
+        <p>When you use Cutify, we collect:</p>
+        <ul>
+          <li>Photos you upload — to generate hairstyle previews</li>
+          <li>Device information — to make the app work properly</li>
+          <li>Usage data — to improve our service</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">How We Use Your Data</div>
+        <p>We use your information to:</p>
+        <ul>
+          <li>Generate your AI hairstyle previews</li>
+          <li>Process payments for tokens</li>
+          <li>Improve our AI models</li>
+          <li>Send important updates about the app</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Your Photos</div>
+        <span class="policy-important">Important</span>
+        <ul>
+          <li>Your photos are processed by AI to create hairstyles</li>
+          <li>We do NOT sell your photos to anyone</li>
+          <li>We do NOT share your photos publicly</li>
+          <li>You can delete your photos anytime</li>
+          <li>Photos are stored securely and deleted after 30 days</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Third-Party Services</div>
+        <p>We use:</p>
+        <ul>
+          <li>Google Gemini AI — for hairstyle generation</li>
+          <li>Payment processors — for token purchases</li>
+          <li>Analytics — to understand app usage</li>
+        </ul>
+        <p style="margin-top:12px;">These services have their own privacy policies.</p>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Your Rights</div>
+        <p>You can:</p>
+        <ul>
+          <li>Delete your photos anytime</li>
+          <li>Request we delete all your data</li>
+          <li>Stop using the app at any time</li>
+          <li>Contact us with privacy questions</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Data Security</div>
+        <p>We use industry-standard security to protect your data. However, no method is 100% secure.</p>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Children's Privacy</div>
+        <p>Cutify is not for users under 13 years old. We do not knowingly collect data from children.</p>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Contact Us</div>
+        <p>Questions? Email: <a href="mailto:cutify.support@gmail.com" style="color:var(--fg);">cutify.support@gmail.com</a></p>
+      </div>
+
+      <div class="policy-updated">Last Updated: March 2026</div>
+    </div>
+  </div>
+
+  <!-- TERMS OF SERVICE -->
+  <div class="tab-content" id="tab-terms">
+    <div class="policy-body">
+
+      <div class="policy-section">
+        <div class="policy-section-title">Agreement</div>
+        <p>By using Cutify, you agree to these terms. If you don't agree, please don't use the app.</p>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">What Cutify Does</div>
+        <p>Cutify uses AI to show you what you'd look like with different hairstyles. It's for fun and inspiration — results may vary.</p>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Your Account</div>
+        <ul>
+          <li>You're responsible for keeping your account secure</li>
+          <li>Don't share your account with others</li>
+          <li>You must be 13+ years old to use Cutify</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Tokens & Purchases</div>
+        <ul>
+          <li>Tokens let you generate hairstyles</li>
+          <li>All purchases are final — no refunds</li>
+          <li>Free tokens are promotional and may expire</li>
+          <li>Prices may change at any time</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Your Content</div>
+        <p>Photos you upload:</p>
+        <ul>
+          <li>You keep ownership of your photos</li>
+          <li>You give us permission to use them to generate hairstyles</li>
+          <li>Don't upload photos of other people without permission</li>
+          <li>Don't upload inappropriate content</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Acceptable Use</div>
+        <p>You agree NOT to:</p>
+        <ul>
+          <li>Upload inappropriate or illegal content</li>
+          <li>Try to hack or break the app</li>
+          <li>Use the app for commercial purposes without permission</li>
+          <li>Abuse or spam the service</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">AI-Generated Results</div>
+        <span class="policy-important">Important</span>
+        <ul>
+          <li>Results are AI-generated and may not be perfect</li>
+          <li>We don't guarantee accuracy</li>
+          <li>Results are for preview purposes only</li>
+          <li>Show results to your barber for best outcome</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Disclaimer</div>
+        <p>Cutify is provided "as is" without warranties. We're not responsible for bad haircuts, AI results that don't match expectations, technical issues, or lost data.</p>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Termination</div>
+        <p>We can suspend or terminate your account if you violate these terms.</p>
+      </div>
+
+      <div class="policy-section">
+        <div class="policy-section-title">Contact Us</div>
+        <p>Questions? Email: <a href="mailto:cutify.support@gmail.com" style="color:var(--fg);">cutify.support@gmail.com</a></p>
+      </div>
+
+      <div class="policy-updated">Last Updated: March 2026</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">✂ Cutify</span>
+  <span>© 2026 Cutify. All rights reserved. · <a href="mailto:cutify.support@gmail.com">cutify.support@gmail.com</a></span>
+</footer>
+
+<script>
+  // Theme toggle
+  const toggle = document.getElementById('themeToggle');
+  const label = document.getElementById('theme-label');
+  const html = document.documentElement;
+  const saved = localStorage.getItem('cutify-theme') || 'dark';
+  html.setAttribute('data-theme', saved);
+  label.textContent = saved === 'dark' ? 'Light' : 'Dark';
+  toggle.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    label.textContent = next === 'dark' ? 'Light' : 'Dark';
+    localStorage.setItem('cutify-theme', next);
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
