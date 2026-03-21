@@ -333,7 +333,7 @@
     <a href="index.html" class="nav-link">Home</a>
     <span class="toggle-label" id="theme-label">Light</span>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode"></button>
-    <a href="/cdn-cgi/l/email-protection#167563627f706f386563666679646256717b777f7a3875797b" class="nav-cta">Contact Us</a>
+    <a id="nav-contact" class="nav-cta" href="#">Contact Us</a>
   </div>
 </nav>
 
@@ -610,7 +610,7 @@ function copyEmail(btn) {
 
       <div class="policy-section">
         <div class="policy-section-title">Contact Us</div>
-        <p>Questions? Email: <a href="/cdn-cgi/l/        <p>Questions? Email: <span id="contact-email-inline"></span></p>
+        <p>Questions? Email: <span id="contact-email-inline"></span></p>
       </div>
 
       <div class="policy-updated">Last Updated: March 2026</div>
@@ -634,6 +634,9 @@ function copyEmail(btn) {
   // Set all email instances
   const emailEl = document.getElementById('support-email');
   if (emailEl) { emailEl.href = mailto; emailEl.textContent = email; }
+
+  const navContact = document.getElementById('nav-contact');
+  if (navContact) { navContact.href = mailto; }
 
   document.getElementById('contact-email-inline').innerHTML = '<a href="' + mailto + '" style="color:var(--fg)">' + email + '</a>';
   document.getElementById('footer-email').innerHTML = '<a href="' + mailto + '" style="color:var(--gray);text-decoration:none;">' + email + '</a>';
