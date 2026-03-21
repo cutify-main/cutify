@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cutify — See It Before You Cut It</title>
+<meta name="description" content="Try any hairstyle with AI before you cut it. Upload your photo, describe the style, walk in confident.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  /* ── THEME VARIABLES ── */
+  [data-theme="dark"] {
+    --bg: #000000;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: #222222;
+    --fg: #ffffff;
+    --gray: #888888;
+    --light-gray: #cccccc;
+    --nav-bg: rgba(0,0,0,0.88);
+    --toggle-bg: #222;
+    --toggle-knob: #fff;
+    --invert-icon: invert(0);
+  }
+
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --surface: #f5f5f5;
+    --surface2: #eeeeee;
+    --border: #e0e0e0;
+    --fg: #000000;
+    --gray: #666666;
+    --light-gray: #444444;
+    --nav-bg: rgba(255,255,255,0.88);
+    --toggle-bg: #e0e0e0;
+    --toggle-knob: #000;
+    --invert-icon: invert(1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 40px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 18px; font-weight: 900; letter-spacing: -0.5px;
+    color: var(--fg); text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: var(--fg); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: var(--bg);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  .token-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 100px; padding: 8px 16px;
+    font-size: 12px; color: var(--gray); font-weight: 500;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  /* ── DARK/LIGHT TOGGLE ── */
+  .theme-toggle {
+    width: 44px; height: 24px;
+    background: var(--toggle-bg);
+    border-radius: 100px; border: none; cursor: pointer;
+    position: relative; transition: background 0.3s;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 18px; height: 18px;
+    background: var(--toggle-knob);
+    border-radius: 50%;
+    transition: transform 0.3s, background 0.3s;
+  }
+
+  [data-theme="light"] .theme-toggle::after {
+    transform: translateX(20px);
+  }
+
+  .toggle-label {
+    font-size: 12px; color: var(--gray); font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .nav-cta {
+    background: var(--fg); color: var(--bg);
+    border: none; padding: 10px 22px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+    cursor: pointer; border-radius: 100px; text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s, background 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { opacity: 0.8; transform: scale(1.02); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 100px 40px 80px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-content { max-width: 620px; position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border); border-radius: 100px;
+    padding: 6px 14px; font-size: 11px; font-weight: 500;
+    color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 40px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900; line-height: 1.0; letter-spacing: -2px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.5s 0.08s ease both;
+  }
+
+  .hero-sub {
+    font-size: 17px; color: var(--gray); line-height: 1.7;
+    font-weight: 400; margin-bottom: 44px; max-width: 460px;
+    animation: fadeUp 0.5s 0.16s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    animation: fadeUp 0.5s 0.24s ease both;
+  }
+
+  .btn-primary {
+    background: var(--fg); color: var(--bg);
+    border: none; padding: 14px 28px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+    cursor: pointer; border-radius: 100px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: opacity 0.2s, transform 0.2s, background 0.3s, color 0.3s;
+  }
+  .btn-primary:hover { opacity: 0.82; transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent; color: var(--gray);
+    border: 1px solid var(--border); padding: 14px 28px;
+    font-family: 'Inter', sans-serif; font-weight: 500; font-size: 14px;
+    cursor: pointer; border-radius: 100px; text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { color: var(--fg); border-color: var(--gray); }
+
+  /* ── HERO PHONE MOCKUP ── */
+  .hero-visual {
+    position: absolute; right: 60px; top: 50%;
+    transform: translateY(-50%);
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .phone {
+    width: 210px;
+    background: var(--surface);
+    border-radius: 36px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 48px 96px rgba(0,0,0,0.4);
+    padding: 18px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  /* If user drops in a rotated screenshot PNG, swap this src */
+  .phone-screenshot {
+    width: 100%; border-radius: 20px; display: block;
+  }
+
+  .phone-topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .ph-icon {
+    width: 28px; height: 28px; background: var(--bg);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 13px; color: var(--fg);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .ph-tokens {
+    background: var(--bg); border-radius: 100px;
+    padding: 5px 10px; font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; gap: 5px; color: var(--fg);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .ph-reset {
+    width: 28px; height: 28px; background: var(--surface2);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 11px; color: var(--gray);
+  }
+
+  .ph-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 15px; font-weight: 900; margin-bottom: 3px;
+  }
+
+  .ph-sub { font-size: 10px; color: var(--gray); margin-bottom: 14px; }
+
+  .ba-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+    border-radius: 10px; overflow: hidden; margin-bottom: 12px;
+  }
+
+  .ba-cell {
+    aspect-ratio: 3/4; background: var(--surface2);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 8px; position: relative; overflow: hidden;
+  }
+
+  .ba-cell::before {
+    content: ''; position: absolute; bottom: 18px; left: 50%;
+    transform: translateX(-50%); width: 38px; height: 52px;
+    background: var(--border); border-radius: 50% 50% 0 0;
+  }
+  .ba-cell::after {
+    content: ''; position: absolute; bottom: 50px; left: 50%;
+    transform: translateX(-50%); width: 24px; height: 24px;
+    background: var(--border); border-radius: 50%; filter: brightness(1.3);
+  }
+
+  .ba-lbl {
+    position: relative; z-index: 1;
+    background: rgba(0,0,0,0.45); padding: 2px 7px; border-radius: 4px;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.5px; color: #fff;
+  }
+
+  .ph-input {
+    background: var(--bg); border-radius: 10px;
+    padding: 8px 10px; margin-bottom: 10px;
+    transition: background 0.3s;
+  }
+
+  .ph-input-lbl { font-size: 8px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+  .ph-input-val { font-size: 11px; color: var(--light-gray); }
+
+  .ph-btn {
+    background: var(--fg); color: var(--bg);
+    border-radius: 10px; padding: 9px;
+    text-align: center; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    overflow: hidden; padding: 15px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.3s;
+  }
+
+  .marquee-track {
+    display: flex; width: max-content;
+    animation: marquee 28s linear infinite;
+  }
+
+  .marquee-item {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    color: var(--gray); white-space: nowrap; text-transform: uppercase;
+    padding: 0 28px;
+    display: flex; align-items: center; gap: 28px;
+  }
+  .marquee-item::after { content: '·'; color: var(--border); font-size: 18px; }
+
+  /* ── SECTIONS ── */
+  .section { padding: 100px 40px; border-top: 1px solid var(--border); transition: border-color 0.3s; }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray); margin-bottom: 16px;
+  }
+
+  .heading {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 900; letter-spacing: -1.5px; line-height: 1.05;
+    margin-bottom: 60px;
+  }
+
+  /* ── GRIDS ── */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); transition: border-color 0.3s; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); transition: border-color 0.3s; }
+
+  .cell {
+    padding: 40px 36px;
+    border-right: 1px solid var(--border);
+    transition: background 0.2s, border-color 0.3s;
+  }
+  .cell:last-child { border-right: none; }
+  .cell:hover { background: var(--surface); }
+
+  .cell-num { font-size: 11px; font-weight: 600; color: var(--gray); letter-spacing: 1px; margin-bottom: 28px; display: block; }
+  .cell-title { font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 12px; line-height: 1.2; }
+  .cell-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  .stat-num { font-family: 'Unbounded', sans-serif; font-size: 48px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; display: block; }
+  .stat-lbl { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── PRICING ── */
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); transition: border-color 0.3s; }
+
+  .price-card {
+    padding: 40px 36px; border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .price-card:last-child { border-right: none; }
+  .price-card.featured { background: var(--fg); color: var(--bg); }
+
+  .price-tier { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 28px; }
+  .price-card.featured .price-tier { color: rgba(0,0,0,0.35); }
+  [data-theme="light"] .price-card.featured .price-tier { color: rgba(255,255,255,0.4); }
+
+  .price-amount { font-family: 'Unbounded', sans-serif; font-size: 56px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+  .price-tokens { font-size: 13px; color: var(--gray); margin-bottom: 28px; }
+  .price-card.featured .price-tokens { color: rgba(0,0,0,0.4); }
+  [data-theme="light"] .price-card.featured .price-tokens { color: rgba(255,255,255,0.5); }
+
+  .price-hr { border: none; border-top: 1px solid var(--border); margin-bottom: 24px; }
+  .price-card.featured .price-hr { border-color: rgba(0,0,0,0.12); }
+  [data-theme="light"] .price-card.featured .price-hr { border-color: rgba(255,255,255,0.2); }
+
+  .pf-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; flex: 1; }
+  .pf-list li { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 10px; }
+  .price-card.featured .pf-list li { color: rgba(0,0,0,0.5); }
+  [data-theme="light"] .price-card.featured .pf-list li { color: rgba(255,255,255,0.6); }
+
+  .pf-list li::before {
+    content: '✓'; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--surface); display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--gray); flex-shrink: 0;
+  }
+  .price-card.featured .pf-list li::before { background: rgba(0,0,0,0.08); color: var(--bg); }
+  [data-theme="light"] .price-card.featured .pf-list li::before { background: rgba(255,255,255,0.15); color: #fff; }
+
+  .btn-price {
+    display: block; width: 100%; padding: 13px; border-radius: 100px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+    cursor: pointer; text-decoration: none; text-align: center;
+    border: 1px solid var(--border); background: transparent; color: var(--fg);
+    transition: all 0.2s;
+  }
+  .btn-price:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .price-card.featured .btn-price { background: var(--bg); color: var(--fg); border-color: var(--bg); }
+  .price-card.featured .btn-price:hover { opacity: 0.85; }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 120px 40px; text-align: center;
+    border-top: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .cta-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded', sans-serif; font-size: 28vw; font-weight: 900;
+    color: rgba(128,128,128,0.04); pointer-events: none; user-select: none; letter-spacing: -8px;
+  }
+
+  .cta-section h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(44px, 7vw, 84px); font-weight: 900;
+    letter-spacing: -2px; line-height: 1.05; margin-bottom: 24px; position: relative;
+  }
+
+  .cta-section p { font-size: 16px; color: var(--gray); margin: 0 auto 44px; max-width: 400px; line-height: 1.7; position: relative; }
+
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+  .store-btn {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--fg); padding: 14px 24px; border-radius: 14px;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .store-btn:hover { background: var(--surface2); border-color: var(--gray); transform: translateY(-2px); }
+
+  .store-icon { font-size: 22px; }
+  .store-sub { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; display: block; font-weight: 500; }
+  .store-name { font-size: 15px; font-weight: 600; display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--gray);
+    transition: border-color 0.3s;
+  }
+
+  .footer-logo { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 900; color: var(--fg); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    nav { padding: 16px 20px; }
+    .token-pill { display: none; }
+    .toggle-label { display: none; }
+    .hero { padding: 90px 20px 60px; }
+    .hero-visual { display: none; }
+    .section { padding: 72px 20px; }
+    .heading { margin-bottom: 40px; }
+    .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .cell { border-right: none !important; border-bottom: 1px solid var(--border); }
+    .cell:last-child { border-bottom: none; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .price-card { border-right: none; border-bottom: 1px solid var(--border); }
+    .price-card:last-child { border-bottom: none; }
+    .cta-section { padding: 80px 20px; }
+    footer { padding: 24px 20px; flex-direction: column; gap: 10px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">✂</div>
+    Cutify
+  </a>
+  <div class="nav-right">
+    <div class="token-pill">● No subscriptions · Pay per use</div>
+    <span class="toggle-label" id="theme-label">Light</span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode"></button>
+    <a href="#download" class="nav-cta">Download Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✦ AI Hair Try-On App</div>
+    <h1>See It<br>Before<br>You Cut It.</h1>
+    <p class="hero-sub">Upload your photo. Try any hairstyle with AI. Walk into the barber knowing exactly what you want.</p>
+    <div class="hero-actions">
+      <a href="#download" class="btn-primary">Download Free →</a>
+      <a href="#how" class="btn-outline">How it works</a>
+    </div>
+  </div>
+
+  <!-- Phone mockup — swap img src with your rotated screenshot PNG from shots.so -->
+  <div class="hero-visual">
+    <div class="phone">
+      <div class="phone-topbar">
+        <div class="ph-icon">✂</div>
+        <div class="ph-tokens">●● 85</div>
+        <div class="ph-reset">↺</div>
+      </div>
+      <div class="ph-title">Photo Edit</div>
+      <div class="ph-sub">Describe a change and apply it</div>
+      <div class="ba-grid">
+        <div class="ba-cell"><span class="ba-lbl">Before</span></div>
+        <div class="ba-cell"><span class="ba-lbl">After</span></div>
+      </div>
+      <div class="ph-input">
+        <div class="ph-input-lbl">Describe the change</div>
+        <div class="ph-input-val">Make his hair curl</div>
+      </div>
+      <div class="ph-btn">Apply Edit ●● 5</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">See it before you cut it</span>
+    <span class="marquee-item">AI hair try-on</span>
+    <span class="marquee-item">Face shape analysis</span>
+    <span class="marquee-item">No subscriptions</span>
+    <span class="marquee-item">Pay per use</span>
+    <span class="marquee-item">Try any style risk-free</span>
+    <span class="marquee-item">See it before you cut it</span>
+    <span class="marquee-item">AI hair try-on</span>
+    <span class="marquee-item">Face shape analysis</span>
+    <span class="marquee-item">No subscriptions</span>
+    <span class="marquee-item">Pay per use</span>
+    <span class="marquee-item">Try any style risk-free</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="eyebrow">How it works</div>
+  <h2 class="heading">Three steps.<br>Zero regrets.</h2>
+  <div class="grid-3">
+    <div class="cell">
+      <span class="cell-num">01</span>
+      <div class="cell-title">Upload Your Photo</div>
+      <p class="cell-desc">Take a selfie or pick one from your camera roll. No special setup. Just your face.</p>
+    </div>
+    <div class="cell">
+      <span class="cell-num">02</span>
+      <div class="cell-title">Describe the Style</div>
+      <p class="cell-desc">Type in the cut — braids, fade, curls, locs — or let face analysis recommend the best one for you.</p>
+    </div>
+    <div class="cell">
+      <span class="cell-num">03</span>
+      <div class="cell-title">Walk In Confident</div>
+      <p class="cell-desc">Show your barber the after photo. No miscommunication. No bad surprises. Just the cut you wanted.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="eyebrow">What's inside</div>
+  <h2 class="heading">Three tools.<br>One app.</h2>
+  <div class="grid-3">
+    <div class="cell">
+      <span class="cell-num">01 — Generate</span>
+      <div class="cell-title">AI Hair Try-On</div>
+      <p class="cell-desc">Upload your photo, describe any hairstyle, and see yourself wearing it in seconds. Fades, braids, curls, locs — anything.</p>
+    </div>
+    <div class="cell">
+      <span class="cell-num">02 — Analyze</span>
+      <div class="cell-title">Face Shape Analysis</div>
+      <p class="cell-desc">AI maps your face and recommends the cuts that actually suit your bone structure. No more guessing what works for you.</p>
+    </div>
+    <div class="cell">
+      <span class="cell-num">03 — Edit</span>
+      <div class="cell-title">Photo Edit Mode</div>
+      <p class="cell-desc">Describe tweaks and see them applied live. Swipe to compare before and after instantly.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="eyebrow">Pricing</div>
+  <h2 class="heading">No monthly<br>drain.</h2>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-tier">Starter</div>
+      <div class="price-amount">$0.99</div>
+      <div class="price-tokens">150 tokens · 15 previews</div>
+      <hr class="price-hr">
+      <ul class="pf-list">
+        <li>15 hair previews</li>
+        <li>Face shape analysis</li>
+        <li>Save & share results</li>
+        <li>Intro price</li>
+      </ul>
+      <a href="#download" class="btn-price">Get Started</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-tier">Most Popular</div>
+      <div class="price-amount">$3.99</div>
+      <div class="price-tokens">500 tokens · 50 previews</div>
+      <hr class="price-hr">
+      <ul class="pf-list">
+        <li>50 hair previews</li>
+        <li>Face shape analysis</li>
+        <li>Save & share results</li>
+        <li>Best value per preview</li>
+      </ul>
+      <a href="#download" class="btn-price">Get Popular Pack</a>
+    </div>
+    <div class="price-card">
+      <div class="price-tier">Power</div>
+      <div class="price-amount">$9.99</div>
+      <div class="price-tokens">1500 tokens · 150 previews</div>
+      <hr class="price-hr">
+      <ul class="pf-list">
+        <li>150 hair previews</li>
+        <li>Face shape analysis</li>
+        <li>Save & share results</li>
+        <li>For style obsessives</li>
+      </ul>
+      <a href="#download" class="btn-price">Get Power Pack</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / DOWNLOAD -->
+<section class="cta-section" id="download">
+  <div class="cta-bg">✂</div>
+  <h2>Stop gambling<br>at the barber.</h2>
+  <p>Download Cutify free. Try any style on your actual face before you ever sit in the chair.</p>
+  <div class="cta-btns">
+    <a href="#" class="store-btn">
+      <!-- Replace href="#" with your real App Store link -->
+      <span class="store-icon">🍎</span>
+      <div>
+        <span class="store-sub">Download on the</span>
+        <span class="store-name">App Store</span>
+      </div>
+    </a>
+    <a href="#" class="store-btn">
+      <!-- Replace href="#" with your real Google Play link -->
+      <span class="store-icon">▶</span>
+      <div>
+        <span class="store-sub">Get it on</span>
+        <span class="store-name">Google Play</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">✂ Cutify</span>
+  <span>© 2026 Cutify. All rights reserved.</span>
+</footer>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const label = document.getElementById('theme-label');
+  const html = document.documentElement;
+
+  // Load saved preference
+  const saved = localStorage.getItem('cutify-theme') || 'dark';
+  html.setAttribute('data-theme', saved);
+  label.textContent = saved === 'dark' ? 'Light' : 'Dark';
+
+  toggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    label.textContent = next === 'dark' ? 'Light' : 'Dark';
+    localStorage.setItem('cutify-theme', next);
+  });
+</script>
+
+</body>
+</html>
