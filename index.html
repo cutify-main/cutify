@@ -416,9 +416,49 @@
   }
   .store-btn:hover { background: var(--surface2); border-color: var(--gray); transform: translateY(-2px); }
 
-  .store-icon { font-size: 22px; }
+  .store-icon { width: 28px; height: 28px; object-fit: contain; display: block; transition: filter 0.3s; }
+  [data-theme="light"] .store-icon-apple { filter: invert(1); }
+  [data-theme="dark"] .store-icon-apple { filter: invert(0); }
   .store-sub { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; display: block; font-weight: 500; }
   .store-name { font-size: 15px; font-weight: 600; display: block; }
+
+  /* ── FEEDBACK ── */
+  .feedback-section {
+    padding: 100px 40px;
+    border-top: 1px solid var(--border);
+    transition: border-color 0.3s;
+  }
+  .feedback-inner { max-width: 560px; }
+  .feedback-form { display: flex; flex-direction: column; gap: 14px; margin-top: 40px; }
+  .feedback-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .feedback-input, .feedback-textarea {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--fg); font-family: 'Inter', sans-serif; font-size: 14px;
+    padding: 14px 16px; border-radius: 12px; outline: none;
+    transition: border-color 0.2s, background 0.3s;
+    width: 100%;
+  }
+  .feedback-input::placeholder, .feedback-textarea::placeholder { color: var(--gray); }
+  .feedback-input:focus, .feedback-textarea:focus { border-color: var(--fg); }
+  .feedback-textarea { resize: vertical; min-height: 120px; }
+  .feedback-submit {
+    background: var(--fg); color: var(--bg);
+    border: none; padding: 14px 28px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+    cursor: pointer; border-radius: 100px; align-self: flex-start;
+    transition: opacity 0.2s, transform 0.2s, background 0.3s, color 0.3s;
+  }
+  .feedback-submit:hover { opacity: 0.82; transform: translateY(-1px); }
+  .feedback-success {
+    display: none; padding: 16px 20px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; font-size: 14px; color: var(--gray);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  @media (max-width: 600px) {
+    .feedback-section { padding: 72px 20px; }
+    .feedback-row { grid-template-columns: 1fr; }
+  }
 
   /* ── FOOTER ── */
   footer {
@@ -616,14 +656,14 @@
   <p>Download Cutify free. Try any style on your actual face before you ever sit in the chair.</p>
   <div class="cta-btns">
     <a href="#" class="store-btn" style="opacity:0.5;cursor:not-allowed;" onclick="return false;">
-      <span class="store-icon">🍎</span>
+      <img src="apple-icon-4.png" alt="Apple" class="store-icon store-icon-apple" />
       <div>
         <span class="store-sub">Coming soon to</span>
         <span class="store-name">App Store</span>
       </div>
     </a>
     <a href="https://play.google.com/apps/test/RQAOgfQGro0/ahAO29uNRGUgxTHUajlqGFZ2vYgrdfNwguN7JShai5YCSBVgIzBnPk3-YB-DC6CXpZNkK2qqk55Wcjg84le0Ho-Z2H" class="store-btn" target="_blank" rel="noopener" style="position:relative;">
-      <span class="store-icon">▶</span>
+      <img src="google-toolbar-icon-search-symbol-map-gmail-calendar-drive-photo-google-play-meet-chat-and-my-ad-center-free-png.png" alt="Google Play" class="store-icon" />
       <div>
         <span class="store-sub">Beta — Test on</span>
         <span class="store-name">Google Play</span>
@@ -634,12 +674,44 @@
   <p style="margin-top:20px;font-size:12px;color:var(--gray);">iOS version pending App Store review · Android beta available now</p>
 </section>
 
+<!-- FEEDBACK -->
+<section class="feedback-section" id="feedback">
+  <div class="feedback-inner">
+    <div class="eyebrow">Feedback</div>
+    <h2 class="heading">Tell us<br>what you think.</h2>
+    <div class="feedback-form" id="feedbackForm">
+      <div class="feedback-row">
+        <input class="feedback-input" type="text" placeholder="Your name" id="fb-name" />
+        <input class="feedback-input" type="email" placeholder="Email (optional)" id="fb-email" />
+      </div>
+      <textarea class="feedback-textarea" placeholder="What do you love? What could be better? Any bugs?" id="fb-message"></textarea>
+      <button class="feedback-submit" onclick="submitFeedback()">Send Feedback →</button>
+    </div>
+    <div class="feedback-success" id="feedbackSuccess">
+      ✓ &nbsp;Thanks! We read every message and will get back to you if you left an email.
+    </div>
+  </div>
+</section>
+
 <footer>
   <span class="footer-logo">✂ Cutify</span>
   <span>© 2026 Cutify. All rights reserved.</span>
 </footer>
 
 <script>
+  function submitFeedback() {
+    const name = document.getElementById('fb-name').value.trim();
+    const message = document.getElementById('fb-message').value.trim();
+    if (!message) { document.getElementById('fb-message').focus(); return; }
+    // Opens mailto as a simple no-backend solution
+    const email = document.getElementById('fb-email').value.trim();
+    const subject = encodeURIComponent('Cutify Feedback' + (name ? ' from ' + name : ''));
+    const body = encodeURIComponent((name ? 'From: ' + name + '\n' : '') + (email ? 'Reply to: ' + email + '\n' : '') + '\n' + message);
+    window.location.href = `mailto:feedback@cutify.app?subject=${subject}&body=${body}`;
+    document.getElementById('feedbackForm').style.display = 'none';
+    document.getElementById('feedbackSuccess').style.display = 'block';
+  }
+
   const toggle = document.getElementById('themeToggle');
   const label = document.getElementById('theme-label');
   const html = document.documentElement;
