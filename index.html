@@ -70,11 +70,16 @@
 
   .logo-icon {
     width: 32px; height: 32px;
-    background: var(--fg); border-radius: 8px;
+    border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 15px; color: var(--bg);
-    transition: background 0.3s, color 0.3s;
+    overflow: hidden;
   }
+  .logo-icon img {
+    width: 100%; height: 100%; object-fit: contain;
+    transition: filter 0.3s;
+  }
+  [data-theme="dark"] .logo-icon img { filter: invert(1); }
+  [data-theme="light"] .logo-icon img { filter: invert(0); }
 
   .nav-right { display: flex; align-items: center; gap: 12px; }
 
@@ -507,7 +512,7 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="logo">
-    <div class="logo-icon">✂</div>
+    <div class="logo-icon"><img src="logo.png" alt="Cutify" /></div>
     Cutify
   </a>
   <div class="nav-right">
