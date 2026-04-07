@@ -703,9 +703,11 @@
     const content = document.getElementById('tab-' + tabName);
     if (btn) btn.classList.add('active');
     if (content) content.classList.add('active');
+    // Write hash to URL so direct links work
+    const hashMap = { privacy: '#privacy_policy', terms: '#terms_of_service' };
+    if (hashMap[tabName]) history.pushState(null, '', hashMap[tabName]);
   }
 
-  // Tab click handlers
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => showTab(btn.dataset.tab));
   });
