@@ -351,16 +351,7 @@
     <a class="contact-email" id="support-email" href="#"></a>
     <span class="contact-desc">We typically respond within 24 hours.</span>
   </div>
-  <button class="btn-email" onclick="copyEmail(this)">Copy Email Address</button>
-
-<script>
-function copyEmail(btn) {
-  navigator.clipboard.writeText('cutify.support@gmail.com').then(() => {
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy Email Address', 2000);
-  });
-}
-</script>
+  <button class="btn-email">Copy Email Address</button>
 </div>
 
 <!-- FAQ -->
@@ -385,7 +376,7 @@ function copyEmail(btn) {
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-answer">
-        <p>All token purchases are final and non-refundable. If you believe there was a billing error or a technical issue prevented you from using your tokens, contact us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="365543425f504f184543464659444276515b575f5a1855595b">[email&#160;protected]</a> and we'll look into it.</p>
+        <p>All token purchases are final and non-refundable. If you believe there was a billing error or a technical issue prevented you from using your tokens, contact us and we'll look into it.</p>
       </div>
     </div>
 
@@ -395,7 +386,7 @@ function copyEmail(btn) {
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-answer">
-        <p>Your photos are processed to generate hairstyle previews and stored securely. We do not sell or share your photos with anyone. Photos are automatically deleted after 30 days. You can also request deletion at any time by contacting us.</p>
+        <p>Your photos are processed temporarily to generate hairstyle previews and are deleted automatically after processing is complete. We do not sell or share your photos with anyone. You can also request deletion at any time by contacting us.</p>
       </div>
     </div>
 
@@ -415,7 +406,7 @@ function copyEmail(btn) {
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-answer">
-        <p>Try closing and reopening the app. If tokens still haven't appeared after a few minutes, email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e38096978a859acd909693938c9197a3848e828a8fcd808c8e">[email&#160;protected]</a> with your purchase receipt and we'll sort it out quickly.</p>
+        <p>Try closing and reopening the app. If tokens still haven't appeared after a few minutes, email us with your purchase receipt and we'll sort it out quickly.</p>
       </div>
     </div>
 
@@ -435,7 +426,7 @@ function copyEmail(btn) {
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-answer">
-        <p>Email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9efdebeaf7f8e7b0edebeeeef1eceadef9f3fff7f2b0fdf1f3">[email&#160;protected]</a> with the subject "Delete My Data" and we will remove all your information from our systems within a reasonable timeframe.</p>
+        <p>Email us with the subject "Delete My Data" and we will remove all your information from our systems within a reasonable timeframe.</p>
       </div>
     </div>
 
@@ -443,6 +434,7 @@ function copyEmail(btn) {
 </section>
 
 <!-- PRIVACY + TERMS -->
+<!-- id="legal" is the section anchor. id="privacy_policy" and id="terms_of_service" are direct deep-link anchors -->
 <section class="section" id="legal">
   <div class="eyebrow">Legal</div>
   <h2 class="heading">Privacy &<br>Terms.</h2>
@@ -454,9 +446,9 @@ function copyEmail(btn) {
     </div>
   </div>
 
-  <!-- PRIVACY POLICY -->
+  <!-- PRIVACY POLICY — deep link: #privacy_policy -->
   <div class="tab-content active" id="tab-privacy">
-    <div class="policy-body">
+    <div id="privacy_policy" class="policy-body">
 
       <div class="policy-section">
         <div class="policy-section-title">What We Collect</div>
@@ -483,11 +475,11 @@ function copyEmail(btn) {
         <div class="policy-section-title">Your Photos</div>
         <span class="policy-important">Important</span>
         <ul>
-          <li>Your photos are processed by AI to create hairstyles</li>
+          <li>Your photos are processed by AI to create hairstyle previews</li>
           <li>We do NOT sell your photos to anyone</li>
           <li>We do NOT share your photos publicly</li>
           <li>You can delete your photos anytime</li>
-          <li>Photos are stored securely and deleted after 30 days</li>
+          <li>Photos are processed temporarily and deleted automatically after processing is complete — we do not store them permanently</li>
         </ul>
       </div>
 
@@ -497,7 +489,7 @@ function copyEmail(btn) {
         <br>
         <p><strong>What We Collect</strong></p>
         <p>We may process photos that contain a user's face or visible facial features when the user voluntarily uploads or captures a photo inside the app. We may also derive face-related attributes such as face shape, facial proportions, symmetry metrics, and landmark points solely to provide hairstyle analysis and visual preview features.</p>
-        <p style="margin-top:10px;">We do not collect or store Face ID data, biometric authentication data, or facial recognition identity templates used to identify a person.</p>
+        <p style="margin-top:10px;">We do not collect or store biometric identifiers such as facial recognition data, face templates, or Face ID information. We do not use face data for identification, advertising, or tracking of any kind.</p>
         <br>
         <p><strong>How We Use Face Data</strong></p>
         <p>Face-related image data is used only to provide the app's core functionality, including:</p>
@@ -509,11 +501,11 @@ function copyEmail(btn) {
         </ul>
         <p style="margin-top:10px;">We do not use face-related data for identity verification, advertising, or user tracking.</p>
         <br>
-        <p><strong>Sharing and Storage</strong></p>
-        <p>Photos may be securely transmitted to our backend processing server to generate the requested hairstyle or face analysis output. This data is used only to provide requested app functionality and is not sold.</p>
+        <p><strong>Sharing</strong></p>
+        <p>We use third-party AI services (such as Google Gemini) solely to process user images and generate hairstyle previews. These services receive images only for the duration of processing and do not use the data for identification, tracking, or advertising purposes. Photos are not sold or shared with any other third parties.</p>
         <br>
         <p><strong>Retention</strong></p>
-        <p>Uploaded user photos are processed temporarily in memory and are not intentionally stored after processing is complete. Generated output images may be temporarily processed during image generation and are not intentionally retained by our backend after the result is returned. Some generated results or analysis history may remain locally on the user's device until deleted by the user or by uninstalling the app.</p>
+        <p>User photos are processed temporarily to generate AI hairstyle previews. We do not permanently store uploaded photos on our servers. Images are deleted automatically after processing is complete. Generated results may be temporarily stored on the user's device and can be deleted by the user at any time.</p>
         <br>
         <p><strong>User Control</strong></p>
         <p>Users may delete locally stored app content by clearing app data or uninstalling the app, where applicable.</p>
@@ -526,13 +518,8 @@ function copyEmail(btn) {
 
       <div class="policy-section">
         <div class="policy-section-title">Third-Party Services</div>
-        <p>We use:</p>
-        <ul>
-          <li>Google Gemini AI — for hairstyle generation</li>
-          <li>Payment processors — for token purchases</li>
-          <li>Analytics — to understand app usage</li>
-        </ul>
-        <p style="margin-top:12px;">These services have their own privacy policies.</p>
+        <p>We use third-party AI services (such as Google Gemini) solely to process user images and generate hairstyle previews. These services receive images only for the duration of processing and do not use the data for identification, tracking, or advertising purposes.</p>
+        <p style="margin-top:12px;">We also use payment processors for in-app purchases and analytics tools to understand app usage. These services are required to handle data in accordance with their own privacy policies and applicable data protection laws.</p>
       </div>
 
       <div class="policy-section">
@@ -548,7 +535,7 @@ function copyEmail(btn) {
 
       <div class="policy-section">
         <div class="policy-section-title">Data Security</div>
-        <p>We use industry-standard security to protect your data. However, no method is 100% secure.</p>
+        <p>We use industry-standard security to protect your data. All image data is transmitted securely using HTTPS encryption during processing. However, no method is 100% secure.</p>
       </div>
 
       <div class="policy-section">
@@ -558,16 +545,16 @@ function copyEmail(btn) {
 
       <div class="policy-section">
         <div class="policy-section-title">Contact Us</div>
-        <p>Questions? Email: <a href="/cdn-cgi/l/email-protection#4d2e3839242b34633e383d3d223f390d2a202c2421632e2220" style="color:var(--fg);"><span class="__cf_email__" data-cfemail="c4a7b1b0ada2bdeab7b1b4b4abb6b084a3a9a5ada8eaa7aba9">[email&#160;protected]</span></a></p>
+        <p>Questions? Email: <a id="privacy-contact-email" href="#" style="color:var(--fg);"></a></p>
       </div>
 
-      <div class="policy-updated">Last Updated: March 2026</div>
+      <div class="policy-updated">Last Updated: April 2026</div>
     </div>
   </div>
 
-  <!-- TERMS OF SERVICE -->
+  <!-- TERMS OF SERVICE — deep link: #terms_of_service -->
   <div class="tab-content" id="tab-terms">
-    <div class="policy-body">
+    <div id="terms_of_service" class="policy-body">
 
       <div class="policy-section">
         <div class="policy-section-title">Agreement</div>
@@ -643,10 +630,10 @@ function copyEmail(btn) {
 
       <div class="policy-section">
         <div class="policy-section-title">Contact Us</div>
-        <p>Questions? Email: <span id="contact-email-inline"></span></p>
+        <p>Questions? Email: <a id="terms-contact-email" href="#" style="color:var(--fg);"></a></p>
       </div>
 
-      <div class="policy-updated">Last Updated: March 2026</div>
+      <div class="policy-updated">Last Updated: April 2026</div>
     </div>
   </div>
 </section>
@@ -657,21 +644,20 @@ function copyEmail(btn) {
 </footer>
 
 <script>
-  // Build email from parts so Cloudflare can't detect and obfuscate it
+  // Email setup
   const u = 'cutify.support';
   const d = 'gmail';
   const t = 'com';
   const email = u + '@' + d + '.' + t;
-  const mailto = 'mail' + 'to:' + email;
+  const mailto = 'mailto:' + email;
 
-  // Set all email instances
-  const emailEl = document.getElementById('support-email');
-  if (emailEl) { emailEl.href = mailto; emailEl.textContent = email; }
-
-  const navContact = document.getElementById('nav-contact');
-  if (navContact) { navContact.href = mailto; }
-
-  document.getElementById('contact-email-inline').innerHTML = '<a href="' + mailto + '" style="color:var(--fg)">' + email + '</a>';
+  document.getElementById('support-email').href = mailto;
+  document.getElementById('support-email').textContent = email;
+  document.getElementById('nav-contact').href = mailto;
+  document.getElementById('privacy-contact-email').href = mailto;
+  document.getElementById('privacy-contact-email').textContent = email;
+  document.getElementById('terms-contact-email').href = mailto;
+  document.getElementById('terms-contact-email').textContent = email;
   document.getElementById('footer-email').innerHTML = '<a href="' + mailto + '" style="color:var(--gray);text-decoration:none;">' + email + '</a>';
 
   // Copy button
@@ -709,15 +695,37 @@ function copyEmail(btn) {
     });
   });
 
-  // Tabs
+  // Tab switching function
+  function showTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const btn = document.querySelector('[data-tab="' + tabName + '"]');
+    const content = document.getElementById('tab-' + tabName);
+    if (btn) btn.classList.add('active');
+    if (content) content.classList.add('active');
+  }
+
+  // Tab click handlers
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-    });
+    btn.addEventListener('click', () => showTab(btn.dataset.tab));
   });
+
+  // ── Deep link hash handling ──
+  // Supports: #privacy_policy, #terms_of_service, #legal
+  function handleHash() {
+    const hash = window.location.hash;
+    if (hash === '#privacy_policy') {
+      showTab('privacy');
+      document.getElementById('legal').scrollIntoView({ behavior: 'smooth' });
+    } else if (hash === '#terms_of_service') {
+      showTab('terms');
+      document.getElementById('legal').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Run on load and on hash change
+  window.addEventListener('load', handleHash);
+  window.addEventListener('hashchange', handleHash);
 </script>
 
 </body>
