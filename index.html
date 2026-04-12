@@ -123,6 +123,30 @@
   [data-theme="dark"] .store-icon-apple { filter: invert(0); }
   .store-sub { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; display: block; font-weight: 500; }
   .store-name { font-size: 15px; font-weight: 600; display: block; }
+
+  /* ── GLASSY LIVE BADGE ── */
+  .live-badge {
+    position: absolute;
+    top: -10px;
+    right: -8px;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 100px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    /* glass effect */
+    background: rgba(10, 10, 10, 0.72);
+    color: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow:
+      0 2px 12px rgba(0, 0, 0, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  }
+
   .feedback-section { padding: 100px 40px; border-top: 1px solid var(--border); }
   .feedback-inner { max-width: 560px; }
   .feedback-form { display: flex; flex-direction: column; gap: 14px; margin-top: 40px; }
@@ -183,7 +207,7 @@
 
 <nav>
   <a href="#" class="logo">
-    <div class="logo-icon"><img src="OLD_logo.png" alt="Cutify" /></div>
+    <div class="logo-icon"><img src="logo.png" alt="Cutify" /></div>
     Cutify
   </a>
   <div class="nav-right">
@@ -253,7 +277,7 @@
   <div class="pricing-grid">
     <div class="price-card">
       <div class="price-tier">Starter</div>
-      <div class="price-amount">$2.49</div>
+      <div class="price-amount">$0.99</div>
       <div class="price-tokens">150 tokens · 15 previews</div>
       <hr class="price-hr">
       <ul class="pf-list"><li>15 hair previews</li><li>Face shape analysis</li><li>Save & share results</li><li>Intro price</li></ul>
@@ -286,15 +310,15 @@
     <a href="https://apps.apple.com/app/id6760681073" class="store-btn" target="_blank" rel="noopener" style="position:relative;">
       <img src="apple-icon-4.png" alt="Apple" class="store-icon store-icon-apple" />
       <div><span class="store-sub">Download on the</span><span class="store-name">App Store</span></div>
-      <span style="position:absolute;top:-10px;right:-8px;background:#22c55e;color:#000;font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;letter-spacing:1px;text-transform:uppercase;">LIVE</span>
+      <span class="live-badge">LIVE</span>
     </a>
     <a href="https://play.google.com/apps/test/RQAOgfQGro0/ahAO29uNRGUgxTHUajlqGFZ2vYgrdfNwguN7JShai5YCSBVgIzBnPk3-YB-DC6CXpZNkK2qqk55Wcjg84le0Ho-Z2H" class="store-btn" target="_blank" rel="noopener" style="position:relative;">
       <img src="google-toolbar-icon-search-symbol-map-gmail-calendar-drive-photo-google-play-meet-chat-and-my-ad-center-free-png.png" alt="Google Play" class="store-icon" />
       <div><span class="store-sub">Beta — Test on</span><span class="store-name">Google Play</span></div>
-      <span style="position:absolute;top:-10px;right:-8px;background:#22c55e;color:#000;font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;letter-spacing:1px;text-transform:uppercase;">LIVE</span>
+      <span class="live-badge">LIVE</span>
     </a>
   </div>
-  <p style="margin-top:20px;font-size:12px;color:var(--gray);">Available on iOS &amp; Android</p>
+  <p style="margin-top:20px;font-size:12px;color:var(--gray);">Available on iOS &amp; Android · Download free today</p>
 </section>
 
 <section class="feedback-section" id="feedback">
