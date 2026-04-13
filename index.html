@@ -183,6 +183,22 @@
     .feedback-section { padding: 72px 20px; }
     .feedback-row { grid-template-columns: 1fr; }
   }
+
+  /* ── ANDROID BETA MODAL ── */
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; }
+  .modal-overlay.active { display:flex; }
+  .modal-box { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:40px 36px; max-width:380px; width:90%; text-align:center; animation:fadeUp 0.3s ease both; }
+  .modal-icon { font-size:36px; margin-bottom:16px; }
+  .modal-title { font-family:'Unbounded',sans-serif; font-size:20px; font-weight:900; letter-spacing:-0.5px; margin-bottom:12px; }
+  .modal-desc { font-size:14px; color:var(--gray); line-height:1.7; margin-bottom:24px; }
+  .modal-code { display:inline-block; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:10px 20px; font-family:'Unbounded',sans-serif; font-size:18px; font-weight:900; letter-spacing:2px; margin-bottom:10px; cursor:pointer; transition:border-color 0.2s; }
+  .modal-code:hover { border-color:var(--fg); }
+  .modal-copied { font-size:11px; color:var(--gray); margin-bottom:20px; height:16px; }
+  .modal-btns { display:flex; flex-direction:column; gap:10px; }
+  .modal-btn-primary { background:var(--fg); color:var(--bg); border:none; padding:13px; border-radius:100px; font-family:'Inter',sans-serif; font-weight:600; font-size:14px; cursor:pointer; text-decoration:none; display:block; transition:opacity 0.2s; }
+  .modal-btn-primary:hover { opacity:0.8; }
+  .modal-btn-close { background:transparent; color:var(--gray); border:1px solid var(--border); padding:13px; border-radius:100px; font-family:'Inter',sans-serif; font-weight:500; font-size:14px; cursor:pointer; transition:color 0.2s; }
+  .modal-btn-close:hover { color:var(--fg); }
 </style>
 </head>
 <body>
@@ -377,7 +393,41 @@
     label.textContent = next === 'dark' ? 'Light' : 'Dark';
     localStorage.setItem('cutify-theme', next);
   });
+
+  // ── Android modal ─────────────────────────────────────────────────────────
+  document.querySelectorAll('a[href*="play.google.com"]').forEach(a => {
+    if (a.closest('#androidModal')) return;
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('androidModal').classList.add('active');
+    });
+  });
+  function closeModal() { document.getElementById('androidModal').classList.remove('active'); }
+  document.getElementById('androidModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+  function copyCode() {
+    navigator.clipboard.writeText('BETA100').then(() => {
+      document.getElementById('copiedMsg').textContent = '✓ Copied!';
+      setTimeout(() => document.getElementById('copiedMsg').textContent = '', 2000);
+    });
+  }
+
 </script>
+
+
+<!-- ANDROID BETA MODAL -->
+<div class="modal-overlay" id="androidModal">
+  <div class="modal-box">
+    <div class="modal-icon">🤖</div>
+    <div class="modal-title">Android Beta</div>
+    <div class="modal-desc">Google Play payments are temporarily unavailable. Use this promo code in the app to get your first token pack <strong>completely free</strong>.</div>
+    <div class="modal-code" onclick="copyCode()">BETA100</div>
+    <div class="modal-copied" id="copiedMsg"></div>
+    <div class="modal-btns">
+      <a href="https://play.google.com/apps/test/RQAOgfQGro0/ahAO29uNTrZbitf2NHSJbmmjwTl4m1hierd5bGexRCyibbOsR-4074D-CxoGOhaJ8MutmNbZwiQSWLeTJFItaOkCLO" class="modal-btn-primary" target="_blank" rel="noopener">Download on Google Play →</a>
+      <button class="modal-btn-close" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
