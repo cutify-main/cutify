@@ -31,7 +31,7 @@
     to { transform: translateX(-50%); }
   }
   /* Push nav down to account for banner */
-  nav { top: 41px !important; }
+  nav { top: 0px !important; }
   .hero { padding-top: 141px !important; }
 
   [data-theme="dark"] {
@@ -71,7 +71,7 @@
   .btn-primary:hover { opacity: 0.82; transform: translateY(-1px); }
   .btn-outline { background: transparent; color: var(--gray); border: 1px solid var(--border); padding: 14px 28px; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 14px; cursor: pointer; border-radius: 100px; text-decoration: none; transition: color 0.2s, border-color 0.2s; }
   .btn-outline:hover { color: var(--fg); border-color: var(--gray); }
-  .hero-visual { position: absolute; right: 60px; top: 50%; transform: translateY(-50%); animation: fadeUp 0.7s 0.2s ease both; }
+  .hero-visual { position: absolute; right: 60px; top: 15%; transform: translateY(-50%); animation: fadeUp 0.7s 0.2s ease both; }
   .marquee-wrap { overflow: hidden; padding: 15px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
   .marquee-item { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--gray); white-space: nowrap; text-transform: uppercase; padding: 0 28px; display: flex; align-items: center; gap: 28px; }
@@ -210,24 +210,6 @@
 </head>
 <body>
 
-<!-- ANNOUNCEMENT BANNER -->
-<div class="announcement-bar">
-  <div class="announcement-track">
-    <span class="announcement-item">🎉 Now live on the App Store 🎉</span>
-    <span class="announcement-item">✂️ Out on iOS now ✂️</span>
-    <span class="announcement-item">🎊 Download Cutify today 🎊</span>
-    <span class="announcement-item">🎉 Now live on the App Store 🎉</span>
-    <span class="announcement-item">✂️ Out on iOS now ✂️</span>
-    <span class="announcement-item">🎊 Download Cutify today 🎊</span>
-    <span class="announcement-item">🎉 Now live on the App Store 🎉</span>
-    <span class="announcement-item">✂️ Out on iOS now ✂️</span>
-    <span class="announcement-item">🎊 Download Cutify today 🎊</span>
-    <span class="announcement-item">🎉 Now live on the App Store 🎉</span>
-    <span class="announcement-item">✂️ Out on iOS now ✂️</span>
-    <span class="announcement-item">🎊 Download Cutify today 🎊</span>
-  </div>
-</div>
-
 <nav>
   <a href="#" class="logo">
     <div class="logo-icon"><img src="logo.png" alt="Cutify" /></div>
@@ -253,7 +235,7 @@
     </div>
   </div>
   <div class="hero-visual">
-    <img src="phone.png" alt="Cutify App Screenshot" style="width:280px;filter:drop-shadow(0 40px 80px rgba(0,0,0,0.6));" />
+    <img src="phone.png" alt="Cutify App Screenshot" style="width:420px;filter:drop-shadow(0 40px 80px rgba(0,0,0,0.6));" />
   </div>
 </section>
 
